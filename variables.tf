@@ -37,30 +37,34 @@ variable "sg_tags" {
   
 }
 
-# variable "ingress_block" {
-#     type = map(object({
-#         from_port        = number
-#         to_port          = number
-#         protocol         = string
-#         cidr_blocks      = list(string)
-#     }))
-  
-# }
-
-
-
 variable "ingress_block" {
-    type = map(object({}))
+    type = list(object({
+        from_port        = number
+        to_port          = number
+        protocol         = string
+        cidr_blocks      = list(string)
+    }))
+    default = []
   
 }
 
+
+
 variable "egress_block" {
-    type = map(object({
+    type = list(object({
         from_port        = number
         to_port          = number
         protocol         = string
         cidr_blocks      = list(string)
     })) 
+    default = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"  # all protocols
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
 }
 
 
